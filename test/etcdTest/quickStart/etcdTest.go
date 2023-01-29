@@ -19,18 +19,21 @@ func main() {
 	}
 	defer client.Close()
 	fmt.Println(client)
-	//value2 := "[{\"path\":\"D:\\\\Go_Learing\\\\src\\\\gocode\\\\LogAgent_etcd\\\\logFiles\\\\event_logs.log\",\"topic\":\"event_log\"},{\"path\":\"D:\\\\Go_Learing\\\\src\\\\gocode\\\\LogAgent_etcd\\\\logFiles\\\\mall_logs.log\",\"topic\":\"mall_log\"}]\n"
+	ip := "192.168.1.4:"
+	key := ip + "all_logs_config"
+	value1 := "[{\"path\":\"D:\\\\Go_Learing\\\\src\\\\gocode\\\\LogAgent_etcd\\\\logFiles\\\\event_logs.log\",\"topic\":\"event_log\"}]\n"
+	// value2 := "[{\"path\":\"D:\\\\Go_Learing\\\\src\\\\gocode\\\\LogAgent_etcd\\\\logFiles\\\\event_logs.log\",\"topic\":\"event_log\"},{\"path\":\"D:\\\\Go_Learing\\\\src\\\\gocode\\\\LogAgent_etcd\\\\logFiles\\\\mall_logs.log\",\"topic\":\"mall_log\"}]\n"
 	// value3 := "[{\"path\":\"D:\\\\Go_Learing\\\\src\\\\gocode\\\\LogAgent_etcd\\\\logFiles\\\\event_logs.log\",\"topic\":\"event_log\"},{\"path\":\"D:\\\\Go_Learing\\\\src\\\\gocode\\\\LogAgent_etcd\\\\logFiles\\\\mall_logs.log\",\"topic\":\"mall_log\"},{\"path\":\"D:\\\\Go_Learing\\\\src\\\\gocode\\\\LogAgent_etcd\\\\logFiles\\\\shop_logs.log\",\"topic\":\"shop_log\"}]\n"
-	value4 := "[{\"path\":\"D:\\\\Go_Learing\\\\src\\\\gocode\\\\LogAgent_etcd\\\\logFiles\\\\event_logs.log\",\"topic\":\"event_log\"},{\"path\":\"D:\\\\Go_Learing\\\\src\\\\gocode\\\\LogAgent_etcd\\\\logFiles\\\\mall_logs.log\",\"topic\":\"mall_log\"},{\"path\":\"D:\\\\Go_Learing\\\\src\\\\gocode\\\\LogAgent_etcd\\\\logFiles\\\\shop_logs.log\",\"topic\":\"shop_log\"},{\"path\":\"D:\\\\Go_Learing\\\\src\\\\gocode\\\\LogAgent_etcd\\\\logFiles\\\\account_logs.log\",\"topic\":\"account_log\"}]\n"
+	// value4 := "[{\"path\":\"D:\\\\Go_Learing\\\\src\\\\gocode\\\\LogAgent_etcd\\\\logFiles\\\\event_logs.log\",\"topic\":\"event_log\"},{\"path\":\"D:\\\\Go_Learing\\\\src\\\\gocode\\\\LogAgent_etcd\\\\logFiles\\\\mall_logs.log\",\"topic\":\"mall_log\"},{\"path\":\"D:\\\\Go_Learing\\\\src\\\\gocode\\\\LogAgent_etcd\\\\logFiles\\\\shop_logs.log\",\"topic\":\"shop_log\"},{\"path\":\"D:\\\\Go_Learing\\\\src\\\\gocode\\\\LogAgent_etcd\\\\logFiles\\\\account_logs.log\",\"topic\":\"account_log\"}]\n"
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	pair, err := client.Put(ctx, "all_logs_config", value4)
+	pair, err := client.Put(ctx, key, value1)
 	cancel()
 	if err != nil {
 		logrus.Errorf("failed to put kv pair etcd, err = %v", err.Error())
 	}
 	logrus.Infof("pair = %v", pair)
 	ctx1, cancel1 := context.WithTimeout(context.Background(), time.Second)
-	getResponse, err := client.Get(ctx1, "all_logs_config")
+	getResponse, err := client.Get(ctx1, key)
 	if err != nil {
 		logrus.Errorf("get kv pair failed from etcd, err = %v", err.Error())
 	}

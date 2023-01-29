@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"github.com/sirupsen/logrus"
+	"gocode/LogAgent_etcd/common"
 	"gocode/LogAgent_etcd/etcd"
 	"gocode/LogAgent_etcd/kafka"
 	"gocode/LogAgent_etcd/tailfile"
@@ -10,6 +12,13 @@ import (
 )
 
 func main() {
+	// 0. 获取本机IP，为后续从etcd拉取配置做准备
+	ip, err := common.GetOutBoundIP()
+	if err != nil {
+		logrus.Errorf("get local IP failed, err = %v", err.Error())
+		return
+	}
+
 	// 1. 读取配文件
 	cfg, err, done := utils.ReadConfig()
 	if done {
@@ -31,7 +40,9 @@ func main() {
 	}
 
 	// 4. 从etcd中拉取配置
-	collectEntryList := etcd.GetConfig(cfg.EtcdConfig.CollectKey)
+	collectKey := fmt.Sprintf(cfg.EtcdConfig.CollectKey, ip)
+	// collectEntryList := etcd.GetConfig(cfg.EtcdConfig.CollectKey)
+	collectEntryList := etcd.GetConfig(collectKey)
 
 	// 4. 根据etcd中拉取的配置，初始化tail,读取日志文件
 	err = tailfile.InitTailTaskList(collectEntryList)
@@ -40,7 +51,8 @@ func main() {
 	}
 
 	// 启动协程，监控etcd中配置项是否改变
-	go etcd.WatchConfig(cfg.EtcdConfig.CollectKey)
+	// go etcd.WatchConfig(cfg.EtcdConfig.CollectKey)
+	go etcd.WatchConfig(collectKey)
 
 	var wg sync.WaitGroup
 	wg.Add(1)

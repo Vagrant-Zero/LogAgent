@@ -97,7 +97,6 @@ func isExist(path string) bool {
 
 // 查找老配置中存在，但是新配置中不存在的配置，并在老配置map中删除
 func deleteExistTailTask(newConfigMap map[string]struct{}) {
-	logrus.Infof("findNotInTailTaskMap()执行了...")
 	for key, _ := range tailTaskMap {
 		if _, exist := newConfigMap[key]; !exist {
 			// 老配置中不存在，删除对应tailTask
