@@ -19,7 +19,7 @@ func main() {
 	}
 	defer client.Close()
 	fmt.Println(client)
-	ip := "192.168.1.4:"
+	ip := "collectHostIP:"
 	key := ip + "all_logs_config"
 	value1 := "[{\"path\":\"D:\\\\Go_Learing\\\\src\\\\gocode\\\\LogAgent_etcd\\\\logFiles\\\\event_logs.log\",\"topic\":\"event_log\"}]\n"
 	// value2 := "[{\"path\":\"D:\\\\Go_Learing\\\\src\\\\gocode\\\\LogAgent_etcd\\\\logFiles\\\\event_logs.log\",\"topic\":\"event_log\"},{\"path\":\"D:\\\\Go_Learing\\\\src\\\\gocode\\\\LogAgent_etcd\\\\logFiles\\\\mall_logs.log\",\"topic\":\"mall_log\"}]\n"
