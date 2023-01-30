@@ -7,11 +7,11 @@ etcd配置的需要收集日志的格式
 ```json
 [
     {
-    "path":"D:\Go_Learing\src\gocode\LogAgent_etcd\logFiles\event_logs.log",
+    "path":"xxxx\logFiles\event_logs.log",
     "topic":"event_log"
     },
     {
-    "path":"D:\Go_Learing\src\gocode\LogAgent_etcd\logFiles\mall_logs.log",
+    "path":"xxxx\logFiles\mall_logs.log",
     "topic":"mall_log"
     }
 ]
